@@ -1,12 +1,34 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace LiveSortingIssues;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+public partial class App
 {
+    private readonly Bootstrapper _bootstrapper = new();
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        ShowRootWindow();
+        base.OnStartup(e);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        Dispose();
+        base.OnExit(e);
+    }
+
+    private void ShowRootWindow()
+    {
+        var window = _bootstrapper.Resolve<RootWindow>();
+
+        Current.MainWindow = window;
+
+        window.Show();
+    }
+
+    private void Dispose()
+    {
+        _bootstrapper.Dispose();
+    }
 }
