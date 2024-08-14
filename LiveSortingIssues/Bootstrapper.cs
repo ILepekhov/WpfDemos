@@ -1,4 +1,5 @@
-﻿using LiveSortingIssues.Components.Root;
+﻿using LiveSortingIssues.Components.DrumEmulator;
+using LiveSortingIssues.Components.Root;
 using LiveSortingIssues.Components.Slides;
 using LiveSortingIssues.DataModel;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,9 +18,9 @@ public sealed class Bootstrapper : IDisposable
 
         services
             .AddSingleton(new Drum(DrumParameters.ColumnCount, DrumParameters.RowCount))
-            .AddSingleton<IDrumManager, DrumManager>()
             .AddRootComponent()
-            .AddSlidesComponent();
+            .AddSlidesComponent()
+            .AddDrumEmulatorComponent();
 
         _serviceProvider = services.BuildServiceProvider();
     }

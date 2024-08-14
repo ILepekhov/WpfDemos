@@ -9,4 +9,17 @@ public sealed class Magazine(MagazineId magazineId)
     public int Count => _slides.Count;
 
     public Slide[] GetSlides() => _slides.Values.OrderBy(slide => slide.Id).ToArray();
+
+    public void AddSlide(Slide slide)
+    {
+        if (slide.Id.MagazineId != Id)
+        {
+            throw new InvalidOperationException();
+        }
+
+        if (_slides.TryAdd(slide.Id, slide) is false)
+        {
+            throw new InvalidOperationException();
+        }
+    }
 }

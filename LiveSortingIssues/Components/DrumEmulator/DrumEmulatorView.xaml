@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="LiveSortingIssues.Components.DrumEmulator.DrumEmulatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LiveSortingIssues.Components.DrumEmulator"
+             xmlns:res="clr-namespace:LiveSortingIssues.Resources"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:DrumEmulatorViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="4" />
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{x:Static res:Strings.DrumEmulatorTitle_Magazine}"
+                       VerticalAlignment="Center"/>
+            <ComboBox Grid.Column="1"
+                      ItemsSource="{Binding Magazines}"
+                      SelectedItem="{Binding SelectedMagazine}"
+                      Margin="4 4 0 4" />
+        </Grid>
+
+        <UniformGrid Columns="2">
+            <Button Content="{x:Static res:Strings.DrumEmulatorAction_Add}"
+                    Command="{Binding AddMagazineCommand}" />
+            <Button Content="{x:Static res:Strings.DrumEmulatorAction_Remove}"
+                    Command="{Binding RemoveMagazineCommand}" />
+        </UniformGrid>
+    </StackPanel>
+</UserControl>

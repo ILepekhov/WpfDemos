@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using LiveSortingIssues.Components.DrumEmulator;
 using LiveSortingIssues.Components.Root;
 using LiveSortingIssues.Components.Slides;
 
@@ -11,11 +12,14 @@ public partial class RootWindow
         InitializeComponent();
     }
 
-    public RootWindow(RootViewModel viewModel, SlidesView slidesView) : this()
+    public RootWindow(RootViewModel viewModel, SlidesView slidesView, DrumEmulatorView drumEmulatorView) : this()
     {
         DataContext = viewModel;
 
         Grid.SetColumn(slidesView, 0);
         RootGrid.Children.Add(slidesView);
+
+        Grid.SetColumn(drumEmulatorView, 1);
+        RootGrid.Children.Add(drumEmulatorView);
     }
 }

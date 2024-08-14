@@ -60,6 +60,15 @@ namespace LiveSortingIssues.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DataGrid&apos;s LiveSorting issue.
+        /// </summary>
+        public static string AppTitle {
+            get {
+                return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folder.
         /// </summary>
         public static string ColumnHeader_Folder {
@@ -83,6 +92,33 @@ namespace LiveSortingIssues.Resources {
         public static string ColumnHeader_Status {
             get {
                 return ResourceManager.GetString("ColumnHeader_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string DrumEmulatorAction_Add {
+            get {
+                return ResourceManager.GetString("DrumEmulatorAction_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string DrumEmulatorAction_Remove {
+            get {
+                return ResourceManager.GetString("DrumEmulatorAction_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Magazine.
+        /// </summary>
+        public static string DrumEmulatorTitle_Magazine {
+            get {
+                return ResourceManager.GetString("DrumEmulatorTitle_Magazine", resourceCulture);
             }
         }
         

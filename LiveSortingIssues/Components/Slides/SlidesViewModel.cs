@@ -8,14 +8,14 @@ namespace LiveSortingIssues.Components.Slides;
 
 public sealed class SlidesViewModel : ViewModelBase
 {
-    private readonly IDrumManager _drumManager;
+    private readonly Drum _drum;
     private readonly ObservableCollection<SlideViewModel> _slideViewModels;
 
-    public SlidesViewModel(IDrumManager drumManager)
+    public SlidesViewModel(Drum drum)
     {
-        _drumManager = drumManager;
+        _drum = drum;
         _slideViewModels =
-            new ObservableCollection<SlideViewModel>(drumManager.GetSlides().Select(s => new SlideViewModel(s)));
+            new ObservableCollection<SlideViewModel>(drum.GetSlides().Select(s => new SlideViewModel(s)));
 
         SlidesView = ConfigureSlidesView(_slideViewModels, SlideProperty.Position, ListSortDirection.Ascending);
     }

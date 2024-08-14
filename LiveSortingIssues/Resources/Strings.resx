@@ -30,4 +30,16 @@
     <data name="ColumnHeader_Status" xml:space="preserve">
         <value>Status</value>
     </data>
+    <data name="DrumEmulatorTitle_Magazine" xml:space="preserve">
+        <value>Magazine</value>
+    </data>
+    <data name="DrumEmulatorAction_Add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="DrumEmulatorAction_Remove" xml:space="preserve">
+        <value>Remove</value>
+    </data>
+    <data name="AppTitle" xml:space="preserve">
+        <value>DataGrid's LiveSorting issue</value>
+    </data>
 </root>
