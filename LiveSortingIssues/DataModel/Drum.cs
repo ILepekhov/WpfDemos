@@ -12,6 +12,15 @@ public sealed class Drum
         _magazines = GenerateMagazineIds(columnsCount, rowsCount).ToDictionary(x => x, _ => default(Magazine));
     }
 
+    public Slide[] GetSlides()
+    {
+        return _magazines.Values
+            .Where(m => m is not null)
+            .SelectMany(m => m!.GetSlides())
+            .OrderBy(s => s.Id)
+            .ToArray();
+    }
+
     private static IEnumerable<MagazineId> GenerateMagazineIds(int columnsCount, int rowsCount)
     {
         for (var col = 0; col < columnsCount; col++)

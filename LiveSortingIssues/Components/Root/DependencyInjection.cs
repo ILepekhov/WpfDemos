@@ -7,10 +7,7 @@ public static class DependencyInjection
     public static IServiceCollection AddRootComponent(this IServiceCollection services)
     {
         services.AddSingleton<RootViewModel>();
-        services.AddSingleton<RootWindow>(resolver => new RootWindow
-        {
-            ViewModel = resolver.GetService<RootViewModel>()
-        });
+        services.AddSingleton<RootWindow>();
 
         return services;
     }

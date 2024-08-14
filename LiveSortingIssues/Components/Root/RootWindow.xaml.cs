@@ -1,23 +1,21 @@
-﻿using LiveSortingIssues.Components.Root;
+﻿using System.Windows.Controls;
+using LiveSortingIssues.Components.Root;
+using LiveSortingIssues.Components.Slides;
 
 namespace LiveSortingIssues;
 
 public partial class RootWindow
 {
-    private RootViewModel? _viewModel;
-
     public RootWindow()
     {
         InitializeComponent();
     }
 
-    public RootViewModel? ViewModel
+    public RootWindow(RootViewModel viewModel, SlidesView slidesView) : this()
     {
-        get => _viewModel;
-        set
-        {
-            _viewModel = value;
-            DataContext = value;
-        }
+        DataContext = viewModel;
+
+        Grid.SetColumn(slidesView, 0);
+        RootGrid.Children.Add(slidesView);
     }
 }
