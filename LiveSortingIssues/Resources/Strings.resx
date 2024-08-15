@@ -63,4 +63,7 @@
     <data name="SlideStatusGroup_Done" xml:space="preserve">
         <value>Done</value>
     </data>
+    <data name="SlideCount_Template" xml:space="preserve">
+        <value>Slide count {0}</value>
+    </data>
 </root>

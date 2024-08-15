@@ -10,18 +10,29 @@ namespace LiveSortingIssues.Components.Slides;
 
 public sealed class SlidesViewModel : ViewModelBase
 {
+    private int _slideCount;
+
     public SlidesViewModel(Drum drum)
     {
         ObservableCollection<SlideViewModel> slideViewModels = new(drum.GetSlides().Select(s => new SlideViewModel(s)));
 
         SlidesView = ConfigureSlidesView(slideViewModels, SlideProperty.Position, ListSortDirection.Ascending);
+        SlideCount = slideViewModels.Count;
 
         InitiateSlidePresenceUpdatesHandling(slideViewModels, out var slidePresenceUpdatesInput);
 
         SubscribeToSlidePresenceUpdates(drum, slidePresenceUpdatesInput);
+
+        slideViewModels.CollectionChanged += (_, _) => SlideCount = slideViewModels.Count;
     }
 
     public ICollectionView SlidesView { get; }
+
+    public int SlideCount
+    {
+        get => _slideCount;
+        private set => SetField(ref _slideCount, value);
+    }
 
     public void UpdateDisplayingParameters(SlideProperty sortByProperty, ListSortDirection sortDirection)
     {

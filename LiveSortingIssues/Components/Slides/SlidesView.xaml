@@ -38,122 +38,136 @@
         </Style>
     </UserControl.Resources>
 
-    <DataGrid x:Name="SlideDataGrid"
-              AutoGenerateColumns="False"
-              CanUserAddRows="False"
-              CanUserReorderColumns="False"
-              HeadersVisibility="Column"
-              SelectionUnit="FullRow"
-              GridLinesVisibility="None"
-              EnableRowVirtualization="True"
-              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-              VirtualizingPanel.VirtualizationMode="Standard"
-              VirtualizingPanel.IsVirtualizing="True"
-              VirtualizingPanel.CacheLength="10, 10"
-              VirtualizingPanel.CacheLengthUnit="Item"
-              ItemsSource="{Binding SlidesView}"
-              Sorting="SlideDataGridOnSorting">
-        <DataGrid.GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource SlidesGroupStyle}">
-                <GroupStyle.Panel>
-                    <ItemsPanelTemplate>
-                        <DataGridRowsPresenter IsItemsHost="True" />
-                    </ItemsPanelTemplate>
-                </GroupStyle.Panel>
-            </GroupStyle>
-        </DataGrid.GroupStyle>
-        <DataGrid.RowStyle>
-            <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
-                <Setter Property="IsSelected"
-                        Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <EventSetter Event="PreviewKeyDown" Handler="OnRowPreviewKeyDown" />
-            </Style>
-        </DataGrid.RowStyle>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn local:DataGridColumnAssist.SlideProperty="Position"
-                                    Header="{x:Static res:Strings.ColumnHeader_Position}"
-                                    SortMemberPath="Position"
-                                    Width="*"
-                                    MinWidth="200"
-                                    SortDirection="Ascending">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Margin="10 0 0 0">
-                            <Run Text="{Binding Position, Mode=OneWay}" /><Run Text=":" />
-                            <Run Text="{Binding Name, Mode=OneWay}" />
-                        </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-                <DataGridTemplateColumn.CellEditingTemplate>
-                    <DataTemplate>
-                        <Grid Margin="10 0 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Position, StringFormat={}{0}:}"
-                                       VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1"
-                                     Text="{Binding Name}"
-                                     VerticalAlignment="Center"
-                                     Padding="1" />
-                        </Grid>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellEditingTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTextColumn local:DataGridColumnAssist.SlideProperty="Folder"
-                                Header="{x:Static res:Strings.ColumnHeader_Folder}"
-                                Binding="{Binding Folder}"
-                                IsReadOnly="True"
-                                Width="120"
-                                MinWidth="100" />
-            <DataGridTemplateColumn local:DataGridColumnAssist.SlideProperty="Status"
-                                    Header="{x:Static res:Strings.ColumnHeader_Status}"
-                                    SortMemberPath="Status"
-                                    Width="150"
-                                    MinWidth="100"
-                                    CanUserResize="False">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Status, Converter={StaticResource SlideStatusConverter}}"
-                                   FontWeight="SemiBold">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="{x:Static dataModel:SlideStatus.WaitingForProcessing}">
-                                            <Setter Property="Foreground" Value="RoyalBlue" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="{x:Static dataModel:SlideStatus.Processing}">
-                                            <Setter Property="Foreground" Value="Brown" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="{x:Static dataModel:SlideStatus.Done}">
-                                            <Setter Property="Foreground" Value="SeaGreen" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Foreground" Value="White" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-                <DataGridTemplateColumn.CellEditingTemplate>
-                    <DataTemplate>
-                        <ComboBox ItemsSource="{Binding Source={shared:EnumBindingSource {x:Type dataModel:SlideStatus}}}"
-                                  SelectedItem="{Binding Status}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource SlideStatusConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellEditingTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding SlideCount, StringFormat={x:Static res:Strings.SlideCount_Template}}"
+                   FontWeight="SemiBold"
+                   FontSize="13" />
+
+        <DataGrid x:Name="SlideDataGrid"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserReorderColumns="False"
+                  HeadersVisibility="Column"
+                  SelectionUnit="FullRow"
+                  GridLinesVisibility="None"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                  VirtualizingPanel.VirtualizationMode="Standard"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.CacheLength="10, 10"
+                  VirtualizingPanel.CacheLengthUnit="Item"
+                  ItemsSource="{Binding SlidesView}"
+                  Sorting="SlideDataGridOnSorting">
+            <DataGrid.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource SlidesGroupStyle}">
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <EventSetter Event="PreviewKeyDown" Handler="OnRowPreviewKeyDown" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn local:DataGridColumnAssist.SlideProperty="Position"
+                                        Header="{x:Static res:Strings.ColumnHeader_Position}"
+                                        SortMemberPath="Position"
+                                        Width="*"
+                                        MinWidth="200"
+                                        SortDirection="Ascending">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="10 0 0 0">
+                                <Run Text="{Binding Position, Mode=OneWay}" /><Run Text=":" />
+                                <Run Text="{Binding Name, Mode=OneWay}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10 0 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Position, StringFormat={}{0}:}"
+                                           VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding Name}"
+                                         VerticalAlignment="Center"
+                                         Padding="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn local:DataGridColumnAssist.SlideProperty="Folder"
+                                    Header="{x:Static res:Strings.ColumnHeader_Folder}"
+                                    Binding="{Binding Folder}"
+                                    IsReadOnly="True"
+                                    Width="120"
+                                    MinWidth="100" />
+                <DataGridTemplateColumn local:DataGridColumnAssist.SlideProperty="Status"
+                                        Header="{x:Static res:Strings.ColumnHeader_Status}"
+                                        SortMemberPath="Status"
+                                        Width="150"
+                                        MinWidth="100"
+                                        CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Status, Converter={StaticResource SlideStatusConverter}}"
+                                       FontWeight="SemiBold">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}"
+                                                         Value="{x:Static dataModel:SlideStatus.WaitingForProcessing}">
+                                                <Setter Property="Foreground" Value="RoyalBlue" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}"
+                                                         Value="{x:Static dataModel:SlideStatus.Processing}">
+                                                <Setter Property="Foreground" Value="Brown" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}"
+                                                         Value="{x:Static dataModel:SlideStatus.Done}">
+                                                <Setter Property="Foreground" Value="SeaGreen" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox
+                                ItemsSource="{Binding Source={shared:EnumBindingSource {x:Type dataModel:SlideStatus}}}"
+                                SelectedItem="{Binding Status}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource SlideStatusConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>

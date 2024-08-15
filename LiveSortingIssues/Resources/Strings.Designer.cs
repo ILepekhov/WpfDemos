@@ -123,6 +123,15 @@ namespace LiveSortingIssues.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slide count {0}.
+        /// </summary>
+        public static string SlideCount_Template {
+            get {
+                return ResourceManager.GetString("SlideCount_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} slides.
         /// </summary>
         public static string SlidesGroup_ItemCountTemplate {
