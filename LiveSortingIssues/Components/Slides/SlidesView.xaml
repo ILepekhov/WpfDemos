@@ -41,16 +41,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="8" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
         <TextBlock Text="{Binding SlideCount, StringFormat={x:Static res:Strings.SlideCount_Template}}"
                    FontWeight="SemiBold"
-                   FontSize="13" />
+                   FontSize="13"
+                   Margin="0 8" />
 
         <DataGrid x:Name="SlideDataGrid"
-                  Grid.Row="2"
+                  Grid.Row="1"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserReorderColumns="False"
@@ -157,7 +157,7 @@
                         <DataTemplate>
                             <ComboBox
                                 ItemsSource="{Binding Source={shared:EnumBindingSource {x:Type dataModel:SlideStatus}}}"
-                                SelectedItem="{Binding Status}">
+                                SelectedItem="{Binding Status, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ., Converter={StaticResource SlideStatusConverter}}" />
