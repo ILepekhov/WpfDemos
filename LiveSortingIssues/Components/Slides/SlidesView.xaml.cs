@@ -30,6 +30,6 @@ public partial class SlidesView
 
         e.Column.SortDirection = sortDirection;
 
-        (DataContext as SlidesViewModel)?.UpdateDisplayingParameters(sortDirection, sortByProperty.Value);
+        (DataContext as SlidesViewModel)?.UpdateDisplayingParameters(sortByProperty.Value, sortDirection);
     }
 }

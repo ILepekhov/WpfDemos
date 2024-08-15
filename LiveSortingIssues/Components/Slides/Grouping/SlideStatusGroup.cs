@@ -1,4 +1,4 @@
-namespace LiveSortingIssues.Components.Slides;
+namespace LiveSortingIssues.Components.Slides.Grouping;
 
 public enum SlideStatusGroup
 {

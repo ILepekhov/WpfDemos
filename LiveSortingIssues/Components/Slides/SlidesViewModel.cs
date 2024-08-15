@@ -3,21 +3,18 @@ using System.ComponentModel;
 using System.Threading.Channels;
 using System.Windows.Data;
 using LiveSortingIssues.Components.Shared;
+using LiveSortingIssues.Components.Slides.Grouping;
 using LiveSortingIssues.DataModel;
 
 namespace LiveSortingIssues.Components.Slides;
 
 public sealed class SlidesViewModel : ViewModelBase
 {
-    private readonly SlidePropertyGroupDescription _groupDescription;
-
     public SlidesViewModel(Drum drum)
     {
         ObservableCollection<SlideViewModel> slideViewModels = new(drum.GetSlides().Select(s => new SlideViewModel(s)));
 
-        _groupDescription = new SlidePropertyGroupDescription(SlideProperty.Position);
-
-        SlidesView = ConfigureSlidesView(slideViewModels, _groupDescription, SlideProperty.Position, ListSortDirection.Ascending);
+        SlidesView = ConfigureSlidesView(slideViewModels, SlideProperty.Position, ListSortDirection.Ascending);
 
         InitiateSlidePresenceUpdatesHandling(slideViewModels, out var slidePresenceUpdatesInput);
 
@@ -26,35 +23,35 @@ public sealed class SlidesViewModel : ViewModelBase
 
     public ICollectionView SlidesView { get; }
 
-    public void UpdateDisplayingParameters(ListSortDirection sortDirection, SlideProperty sortByProperty)
+    public void UpdateDisplayingParameters(SlideProperty sortByProperty, ListSortDirection sortDirection)
     {
-        _groupDescription.Property = sortByProperty;
-        _groupDescription.SetSortDirection(sortDirection);
-
         var slidesView = (SlidesView as ListCollectionView)!;
 
+        using var deferredRefresh = slidesView.DeferRefresh();
+
+        slidesView.GroupDescriptions!.Clear();
         slidesView.LiveGroupingProperties.Clear();
         slidesView.LiveSortingProperties.Clear();
 
         slidesView.CustomSort = SlideComparer.GetComparer(sortByProperty, sortDirection);
 
-        var propertyName = GetPropertyName(sortByProperty);
+        var propertyName = GroupingHelper.GetPropertyName(sortByProperty);
 
         slidesView.LiveSortingProperties.Add(propertyName);
         slidesView.LiveGroupingProperties.Add(propertyName);
+        slidesView.GroupDescriptions.Add(GroupingHelper.GetGroupDescription(sortByProperty, sortDirection));
     }
 
     private static ListCollectionView ConfigureSlidesView(ObservableCollection<SlideViewModel> slideViewModels,
-        GroupDescription groupDescription,
         SlideProperty sortByProperty,
         ListSortDirection sortDirection)
     {
         var slidesView = (CollectionViewSource.GetDefaultView(slideViewModels) as ListCollectionView)!;
 
-        var propertyName = GetPropertyName(sortByProperty);
+        var propertyName = GroupingHelper.GetPropertyName(sortByProperty);
 
         slidesView.GroupDescriptions!.Clear();
-        slidesView.GroupDescriptions.Add(groupDescription);
+        slidesView.GroupDescriptions.Add(GroupingHelper.GetGroupDescription(sortByProperty, sortDirection));
         slidesView.LiveGroupingProperties.Add(propertyName);
         slidesView.IsLiveGrouping = true;
 
@@ -64,17 +61,6 @@ public sealed class SlidesViewModel : ViewModelBase
         slidesView.CustomSort = SlideComparer.GetComparer(sortByProperty, sortDirection);
 
         return slidesView;
-    }
-
-    private static string GetPropertyName(SlideProperty slideProperty)
-    {
-        return slideProperty switch
-        {
-            SlideProperty.Position => nameof(SlideViewModel.MagazinePosition),
-            SlideProperty.Folder => nameof(SlideViewModel.Folder),
-            SlideProperty.Status => nameof(SlideViewModel.Status),
-            _ => throw new ArgumentOutOfRangeException(nameof(slideProperty), slideProperty, null)
-        };
     }
 
     private static void InitiateSlidePresenceUpdatesHandling(ObservableCollection<SlideViewModel> slideViewModels,
