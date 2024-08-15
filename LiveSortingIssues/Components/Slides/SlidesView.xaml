@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LiveSortingIssues.Components.Slides"
              xmlns:dataModel="clr-namespace:LiveSortingIssues.DataModel"
              xmlns:res="clr-namespace:LiveSortingIssues.Resources"
+             xmlns:shared="clr-namespace:LiveSortingIssues.Components.Shared"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:SlidesViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="600" d:DesignWidth="1200">
@@ -79,7 +80,7 @@
                     <DataTemplate>
                         <TextBlock Margin="10 0 0 0">
                             <Run Text="{Binding Position, Mode=OneWay}" /><Run Text=":" />
-                            <Run Text="{Binding Name}" />
+                            <Run Text="{Binding Name, Mode=OneWay}" />
                         </TextBlock>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
@@ -90,8 +91,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Position, StringFormat={}{0}:}" />
+                            <TextBlock Text="{Binding Position, StringFormat={}{0}:}"
+                                       VerticalAlignment="Center" />
                             <TextBox Grid.Column="1"
+                                     Text="{Binding Name}"
                                      VerticalAlignment="Center"
                                      Padding="1" />
                         </Grid>
@@ -107,7 +110,6 @@
             <DataGridTemplateColumn local:DataGridColumnAssist.SlideProperty="Status"
                                     Header="{x:Static res:Strings.ColumnHeader_Status}"
                                     SortMemberPath="Status"
-                                    IsReadOnly="True"
                                     Width="150"
                                     MinWidth="100"
                                     CanUserResize="False">
@@ -130,12 +132,27 @@
                                                      Value="{x:Static dataModel:SlideStatus.Done}">
                                             <Setter Property="Foreground" Value="SeaGreen" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Foreground" Value="White" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellEditingTemplate>
+                    <DataTemplate>
+                        <ComboBox ItemsSource="{Binding Source={shared:EnumBindingSource {x:Type dataModel:SlideStatus}}}"
+                                  SelectedItem="{Binding Status}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource SlideStatusConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellEditingTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
