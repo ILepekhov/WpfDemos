@@ -1,31 +1,13 @@
-﻿using System.Collections;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using LiveSortingIssues.Components.Shared;
 
 namespace LiveSortingIssues.Components.Slides;
 
-public abstract class SlideComparer : IComparer<SlideViewModel>, IComparer
+public abstract class SlideComparer : AbstractComparer<SlideViewModel>
 {
-    private const int AreEqual = 0;
-    private const int IsLess = -1;
-    private const int IsGreater = 1;
-
     private static readonly ChainedComparer ByPosition = new(new ByPositionComparer(), new ByStatusComparer());
     private static readonly ChainedComparer ByFolder = new(new ByFolderComparer(), new ByPositionComparer());
     private static readonly ChainedComparer ByStatus = new(new ByStatusComparer(), new ByPositionComparer());
-
-    public ListSortDirection SortDirection { get; protected set; } = ListSortDirection.Ascending;
-
-    public int Compare(object? x, object? y) => Compare(x as SlideViewModel, y as SlideViewModel);
-
-    public int Compare(SlideViewModel? first, SlideViewModel? second)
-    {
-        if (first is null || second is null)
-        {
-            return CompareByAscendingIfAnyIsNull(first, second) * GetSortingDirectionMultiplier();
-        }
-
-        return CompareByAscending(first, second) * GetSortingDirectionMultiplier();
-    }
 
     public static SlideComparer GetComparer(SlideProperty sortByProperty, ListSortDirection sortDirection)
     {
@@ -40,33 +22,6 @@ public abstract class SlideComparer : IComparer<SlideViewModel>, IComparer
         comparer.SortDirection = sortDirection;
 
         return comparer;
-    }
-
-    protected abstract int CompareByAscending(SlideViewModel first, SlideViewModel second);
-
-    private int GetSortingDirectionMultiplier()
-    {
-        return SortDirection is ListSortDirection.Ascending ? 1 : -1;
-    }
-
-    private static int CompareByAscendingIfAnyIsNull(SlideViewModel? first, SlideViewModel? second)
-    {
-        if (first is null && second is null)
-        {
-            return AreEqual;
-        }
-
-        if (first is null)
-        {
-            return IsLess;
-        }
-
-        if (second is null)
-        {
-            return IsGreater;
-        }
-
-        throw new InvalidOperationException();
     }
 
     private sealed class ChainedComparer : SlideComparer
@@ -94,7 +49,7 @@ public abstract class SlideComparer : IComparer<SlideViewModel>, IComparer
     {
         protected override int CompareByAscending(SlideViewModel first, SlideViewModel second)
         {
-            return first.Position.CompareTo(second.Position);
+            return string.Compare(first.Position, second.Position, StringComparison.OrdinalIgnoreCase);
         }
     }
 

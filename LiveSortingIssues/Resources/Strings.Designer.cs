@@ -130,5 +130,68 @@ namespace LiveSortingIssues.Resources {
                 return ResourceManager.GetString("SlidesGroup_ItemCountTemplate", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string SlideStatus_Done {
+            get {
+                return ResourceManager.GetString("SlideStatus_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string SlideStatus_New {
+            get {
+                return ResourceManager.GetString("SlideStatus_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing.
+        /// </summary>
+        public static string SlideStatus_Processing {
+            get {
+                return ResourceManager.GetString("SlideStatus_Processing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for processing.
+        /// </summary>
+        public static string SlideStatus_WaitingForProcessing {
+            get {
+                return ResourceManager.GetString("SlideStatus_WaitingForProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string SlideStatusGroup_Done {
+            get {
+                return ResourceManager.GetString("SlideStatusGroup_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string SlideStatusGroup_New {
+            get {
+                return ResourceManager.GetString("SlideStatusGroup_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing queue.
+        /// </summary>
+        public static string SlideStatusGroup_ProcessingQueue {
+            get {
+                return ResourceManager.GetString("SlideStatusGroup_ProcessingQueue", resourceCulture);
+            }
+        }
     }
 }

@@ -63,11 +63,18 @@ public sealed class DrumEmulatorViewModel : ViewModelBase
 
         for (var i = 0; i <= Random.Shared.Next(1, MagazineCapacity); i++)
         {
-            magazine.AddSlide(new Slide(new SlideId(magazineId.Row, magazineId.Column, i + 1)));
+            magazine.AddSlide(new Slide(new SlideId(magazineId.Row, magazineId.Column, i + 1))
+            {
+                Name = Guid.NewGuid().ToString()[..10],
+                Status = GetRandomStatus(),
+                Folder = "C:\\Data\\Slides",
+            });
         }
 
         return magazine;
     }
+
+    private static SlideStatus GetRandomStatus() => (SlideStatus)Random.Shared.Next(0, 4);
 
     private void RemoveMagazine()
     {

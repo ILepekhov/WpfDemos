@@ -9,7 +9,10 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:SlidesViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="600" d:DesignWidth="1200">
+
     <UserControl.Resources>
+        <local:SlideStatusConverter x:Key="SlideStatusConverter" />
+
         <Style x:Key="SlidesGroupStyle" TargetType="{x:Type GroupItem}">
             <Setter Property="Margin" Value="0" />
             <Setter Property="Template">
@@ -47,7 +50,8 @@
               VirtualizingPanel.IsVirtualizing="True"
               VirtualizingPanel.CacheLength="10, 10"
               VirtualizingPanel.CacheLengthUnit="Item"
-              ItemsSource="{Binding SlidesView}">
+              ItemsSource="{Binding SlidesView}"
+              Sorting="SlideDataGridOnSorting">
         <DataGrid.GroupStyle>
             <GroupStyle ContainerStyle="{StaticResource SlidesGroupStyle}">
                 <GroupStyle.Panel>
@@ -74,7 +78,7 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Margin="10 0 0 0">
-                            <Run Text="{Binding Position}" /><Run Text=":" />
+                            <Run Text="{Binding Position, Mode=OneWay}" /><Run Text=":" />
                             <Run Text="{Binding Name}" />
                         </TextBlock>
                     </DataTemplate>
@@ -104,12 +108,13 @@
                                     Header="{x:Static res:Strings.ColumnHeader_Status}"
                                     SortMemberPath="Status"
                                     IsReadOnly="True"
-                                    Width="120"
+                                    Width="150"
                                     MinWidth="100"
                                     CanUserResize="False">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Status}">
+                        <TextBlock Text="{Binding Status, Converter={StaticResource SlideStatusConverter}}"
+                                   FontWeight="SemiBold">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>

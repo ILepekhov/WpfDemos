@@ -42,4 +42,25 @@
     <data name="AppTitle" xml:space="preserve">
         <value>DataGrid's LiveSorting issue</value>
     </data>
+    <data name="SlideStatus_New" xml:space="preserve">
+        <value>New</value>
+    </data>
+    <data name="SlideStatus_WaitingForProcessing" xml:space="preserve">
+        <value>Waiting for processing</value>
+    </data>
+    <data name="SlideStatus_Processing" xml:space="preserve">
+        <value>Processing</value>
+    </data>
+    <data name="SlideStatus_Done" xml:space="preserve">
+        <value>Done</value>
+    </data>
+    <data name="SlideStatusGroup_New" xml:space="preserve">
+        <value>New</value>
+    </data>
+    <data name="SlideStatusGroup_ProcessingQueue" xml:space="preserve">
+        <value>Processing queue</value>
+    </data>
+    <data name="SlideStatusGroup_Done" xml:space="preserve">
+        <value>Done</value>
+    </data>
 </root>
